@@ -1,6 +1,6 @@
 # CLAUDE.md - Cedar Workspace
 
-This is the shared workspace for Cedar's projects. It is maintained in the [cedar-mothership](https://github.com/Cedar-AI-Agent/cedar-mothership) repo and symlinked to the parent directory so Claude Code discovers it automatically.
+Cross-project context for Claude Code sessions. Maintained in [cedar-mothership](https://github.com/Cedar-AI-Agent/cedar-mothership) and symlinked to the parent directory. For setup and onboarding, see [README.md](./README.md).
 
 ## Projects
 
@@ -13,43 +13,6 @@ This is the shared workspace for Cedar's projects. It is maintained in the [ceda
 | cedar-session-replay | `./cedar-session-replay` | Session replay & observability (standalone, deployed on GCP) | Standalone service, npm SDK |
 | cedar-infra | `./cedar-infra` | Infrastructure-as-Code — all GCP resources | Terraform, CircleCI |
 | gcp-cloud-functions | `./gcp-cloud-functions` | Distributed cloud functions — enrichment, scraping, data sync | TypeScript, Cloud Run, Cloud Functions, Pub/Sub |
-
-## Setup
-
-New developer? Run the setup script:
-
-```bash
-cd cedar-mothership
-./setup.sh          # clones essential repos (tagged cedar-essential on GitHub)
-./setup.sh --all    # clones ALL org repos
-```
-
-The script:
-1. Clones repos as sibling directories (skips any that already exist)
-2. Creates a symlink `../CLAUDE.md -> cedar-mothership/CLAUDE.md`
-
-## Working with Multiple Projects
-
-When starting Claude Code, use `--add-dir` to include related projects:
-```bash
-# Backend + Frontend (most common)
-cd cedar-service && claude --add-dir ../cedar-ui
-
-# Frontend + Backend
-cd cedar-ui && claude --add-dir ../cedar-service
-
-# Engine work (needs backend for bridge contract)
-cd cedar-engine && claude --add-dir ../cedar-service
-
-# Internal dashboard (needs backend for API context)
-cd cedar-roots && claude --add-dir ../cedar-service
-
-# Session replay (needs frontend for SDK integration context)
-cd cedar-session-replay && claude --add-dir ../cedar-ui
-
-# Infrastructure (include services for context on what's deployed)
-cd cedar-infra && claude --add-dir ../cedar-service --add-dir ../cedar-engine
-```
 
 ## Architecture Overview
 
