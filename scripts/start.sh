@@ -44,6 +44,26 @@ esac
 # the workspace dir that holds all cedar-* sibling repos.
 CEDAR_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 
+# ---------- layout sanity check ----------
+# Standard layout (per README + setup.sh):
+#   <workspace>/
+#     cedar-mothership/    <- contains this script under scripts/
+#     cedar-service/
+#     cedar-engine/
+#     cedar-roots/
+#     cedar-ui/
+# If any of these are missing, fail loudly NOW instead of opening half a
+# stack of broken terminal tabs.
+for required in cedar-service cedar-engine cedar-roots cedar-ui; do
+  if [ ! -d "$CEDAR_ROOT/$required" ]; then
+    echo "Error: expected '$required' at $CEDAR_ROOT/$required, but it's not there." >&2
+    echo "  This script assumes cedar-mothership lives directly inside the workspace dir" >&2
+    echo "  alongside the other cedar-* repos. Run cedar-mothership/setup.sh from the" >&2
+    echo "  workspace root if you haven't cloned the siblings yet." >&2
+    exit 1
+  fi
+done
+
 # ---------- ngrok config ----------
 # Resolve the ngrok domain. Priority:
 #   1. CEDAR_ENGINE_URL from cedar-service/.env (engine mode only — must match
