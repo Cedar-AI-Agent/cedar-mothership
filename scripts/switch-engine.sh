@@ -17,6 +17,16 @@ set -e
 # Script lives in cedar-mothership/scripts/. CEDAR_ROOT is two dirs up.
 CEDAR_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 
+# ---------- layout sanity check ----------
+# Standard layout: cedar-mothership lives directly under the workspace dir
+# alongside cedar-service. We only need cedar-service here (for .env).
+if [ ! -d "$CEDAR_ROOT/cedar-service" ]; then
+  echo "Error: expected 'cedar-service' at $CEDAR_ROOT/cedar-service, but it's not there." >&2
+  echo "  This script assumes cedar-mothership lives directly inside the workspace dir" >&2
+  echo "  alongside the other cedar-* repos. See scripts/README.md → 'Prerequisites'." >&2
+  exit 1
+fi
+
 # ---------- args ----------
 case "${1:-}" in
   -h|--help)
