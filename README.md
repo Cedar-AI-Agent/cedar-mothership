@@ -46,6 +46,18 @@ Repos that already exist locally are skipped — safe to re-run.
 
 ## Running Locally
 
+The fast path is the workflow scripts in [`scripts/`](./scripts/) — one command brings up docker (postgres + redis + neo4j), all four cedar services, and ngrok in tabbed terminals:
+
+```bash
+./scripts/start.sh           # bring everything up
+./scripts/stop.sh            # tear it back down
+./scripts/switch-engine.sh   # flip ngrok between engine (:8080) and service (:9000)
+```
+
+See [`scripts/README.md`](./scripts/README.md) for prerequisites (ngrok static domain, docker, alias setup) and full usage.
+
+If you'd rather start things by hand:
+
 ```bash
 # Backend (Terminal 1)
 cd cedar-service && npm run dev          # http://localhost:9000/graphql
